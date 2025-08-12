@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHATWENEED</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: url('YOUR_IMAGE.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+        text-align: center;
+        transition: background 0.6s ease-in-out;
+    }
+    h1 {
+        font-size: 3em;
+        margin-top: 30px;
+        font-family: 'Trebuchet MS', sans-serif;
+        letter-spacing: 3px;
+        color: orange;
+    }
+    .bubble-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70vh;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+    .bubble {
+        width: 200px;
+        height: 200px;
+        background-color: rgba(255, 165, 0, 0.85);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    .bubble:hover {
+        transform: scale(1.1);
+    }
+    .page {
+        display: none;
+        padding: 20px;
+        min-height: 100vh;
+        background: url('YOUR_IMAGE.jpg') no-repeat center center fixed;
+        background-size: cover;
+        transition: opacity 0.6s ease-in-out;
+    }
+    textarea {
+        width: 80%;
+        height: 80px;
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        resize: none;
+    }
+    button {
+        padding: 10px 20px;
+        margin-top: 10px;
+        background-color: orange;
+        border: none;
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .message {
+        background: rgba(0,0,0,0.5);
+        padding: 10px;
+        margin: 10px auto;
+        border-radius: 5px;
+        width: 80%;
+        max-width: 600px;
+    }
+</style>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script>
+  // Replace with your Firebase config
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+    document.getElementById(pageId).style.display = 'block';
+    loadMessages(pageId);
+  }
+
+  function sendMessage(pageId) {
+    const input = document.querySelector(`#${pageId} textarea`);
+    const message = input.value.trim();
+    if (message) {
+      db.ref(pageId).push({ text: message });
+      input.value = '';
+    }
+  }
+
+  function loadMessages(pageId) {
+    const container = document.querySelector(`#${pageId} .messages`);
+    container.innerHTML = '';
+    db.ref(pageId).on('child_added', snapshot => {
+      const msg = document.createElement('div');
+      msg.className = 'message';
+      msg.innerText = snapshot.val().text;
+      container.appendChild(msg);
+    });
+  }
+</script>
+</head>
+<body>
+
+<h1>WHATWENEED</h1>
+
+<div class="bubble-container">
+    <div class="bubble" onclick="showPage('page1')">What's going on?</div>
+    <div class="bubble" onclick="showPage('page2')">What's coming up?</div>
+    <div class="bubble" onclick="showPage('page3')">How are we feeling?</div>
+</div>
+
+<div id="page1" class="page">
+    <h2>What's going on?</h2>
+    <div class="messages"></div>
+    <textarea placeholder="Share your thoughts..."></textarea>
+    <br>
+    <button onclick="sendMessage('page1')">Post</button>
+</div>
+
+<div id="page2" class="page">
+    <h2>What's coming up?</h2>
+    <div class="messages"></div>
+    <textarea placeholder="Share your thoughts..."></textarea>
+    <br>
+    <button onclick="sendMessage('page2')">Post</button>
+</div>
+
+<div id="page3" class="page">
+    <h2>How are we feeling?</h2>
+    <div class="messages"></div>
+    <textarea placeholder="Share your thoughts..."></textarea>
+    <br>
+    <button onclick="sendMessage('page3')">Post</button>
+</div>
+
+</body>
+</html>

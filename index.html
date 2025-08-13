@@ -5,78 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CODEX 1010</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
     body {
         margin: 0;
         padding: 0;
-        font-family: 'Share Tech Mono', monospace;
-        background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...') no-repeat center center fixed;
+        background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...REPLACE_WITH_FULL_BASE64...') no-repeat center center fixed;
         background-size: cover;
+        font-family: 'Courier New', monospace;
         color: #00ff00;
         display: flex;
         flex-direction: column;
         height: 100vh;
-        overflow: hidden;
     }
-
     header {
         text-align: center;
-        padding: 20px 10px;
-        background-color: rgba(0, 0, 0, 0.6);
+        padding: 15px;
+        font-family: 'Lucida Console', monospace;
     }
-
     header h1 {
-        font-size: 2.2rem;
-        margin: 0;
+        font-size: 2.5em;
+        font-weight: bold;
+        text-shadow: 0px 0px 10px #00ff00;
     }
-
     header p {
-        font-size: 1rem;
-        margin: 5px 0 0;
+        font-size: 1em;
+        opacity: 0.8;
     }
-
-    main {
+    #comments {
         flex: 1;
         overflow-y: auto;
         padding: 15px;
-        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
-
     .comment {
-        margin-bottom: 15px;
-        border-bottom: 1px solid rgba(0, 255, 0, 0.5);
-        padding-bottom: 5px;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #00ff00;
+        font-size: 0.9em;
     }
-
     .timestamp {
-        font-size: 0.7rem;
-        opacity: 0.6;
+        font-size: 0.7em;
+        color: #00ff88;
+        margin-top: 5px;
+        text-align: right;
     }
-
     footer {
         display: flex;
+        background: rgba(0, 0, 0, 0.8);
         padding: 10px;
-        background-color: rgba(0, 0, 0, 0.8);
+        border-top: 1px solid #00ff00;
     }
-
     footer input {
         flex: 1;
-        padding: 10px;
-        border: none;
-        outline: none;
-        font-family: inherit;
-        background-color: rgba(0, 0, 0, 0.6);
-        color: #00ff00;
+        padding: 8px;
         border: 1px solid #00ff00;
+        background: black;
+        color: #00ff00;
+        font-size: 1em;
     }
-
     footer button {
-        background-color: #00ff00;
-        border: none;
-        padding: 10px 15px;
+        padding: 8px 12px;
+        background: #00ff00;
         color: black;
         font-weight: bold;
+        border: none;
         cursor: pointer;
     }
 </style>
@@ -87,9 +81,7 @@
         <p>Everything and Nothing</p>
     </header>
 
-    <main id="commentsSection">
-        <!-- Comments will appear here -->
-    </main>
+    <div id="comments"></div>
 
     <footer>
         <input type="text" id="commentInput" placeholder="Type your comment...">
@@ -99,24 +91,24 @@
 <script>
     function postComment() {
         const input = document.getElementById('commentInput');
-        const commentText = input.value.trim();
-        if (commentText === '') return;
-
-        const commentSection = document.getElementById('commentsSection');
-        const commentDiv = document.createElement('div');
-        commentDiv.classList.add('comment');
-
-        const time = new Date();
-        const timestamp = document.createElement('div');
-        timestamp.classList.add('timestamp');
-        timestamp.innerText = time.toLocaleString();
-
-        commentDiv.innerHTML = `<p>${commentText}</p>`;
-        commentDiv.appendChild(timestamp);
-
-        commentSection.appendChild(commentDiv);
-        commentSection.scrollTop = commentSection.scrollHeight;
+        const text = input.value.trim();
+        if (!text) return;
+        
+        const now = new Date();
+        const timestamp = now.toLocaleString();
+        
+        const commentEl = document.createElement('div');
+        commentEl.classList.add('comment');
+        commentEl.innerHTML = `
+            ${text}
+            <div class="timestamp">${timestamp}</div>
+        `;
+        
+        document.getElementById('comments').appendChild(commentEl);
         input.value = '';
+
+        // Placeholder for backend save:
+        // Here’s where you’ll later add code to send the comment to Firebase or another server
     }
 </script>
 </body>

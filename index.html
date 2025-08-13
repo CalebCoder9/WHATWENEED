@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CODEX 1010</title>
+<style>
+    /* Import a cryptic Matrix-like font */
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Share Tech Mono', monospace;
+        color: #00ff00;
+        background-image: url('data:image/jpeg;base64,
+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');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    header {
+        text-align: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    h1 {
+        font-size: 2.5em;
+        margin: 0;
+    }
+
+    h2 {
+        font-size: 1em;
+        font-weight: normal;
+        margin-top: 5px;
+    }
+
+    #forum {
+        flex: 1;
+        overflow-y: auto;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .comment {
+        border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+        padding: 10px 0;
+    }
+
+    .timestamp {
+        font-size: 0.8em;
+        opacity: 0.6;
+    }
+
+    #comment-bar {
+        display: flex;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        position: sticky;
+        bottom: 0;
+    }
+
+    #comment-input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+        background: black;
+        color: #00ff00;
+    }
+
+    #comment-button {
+        padding: 10px;
+        background: #00ff00;
+        color: black;
+        border: none;
+        cursor: pointer;
+    }
+
+    #comment-button:hover {
+        background: #00cc00;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>CODEX 1010</h1>
+    <h2>Everything and Nothing</h2>
+</header>
+
+<div id="forum"></div>
+
+<div id="comment-bar">
+    <input type="text" id="comment-input" placeholder="Type your comment..." />
+    <button id="comment-button">Post</button>
+</div>
+
+<script>
+    const forum = document.getElementById("forum");
+    const input = document.getElementById("comment-input");
+    const button = document.getElementById("comment-button");
+
+    function addComment(text) {
+        const comment = document.createElement("div");
+        comment.classList.add("comment");
+
+        const timestamp = new Date().toLocaleString();
+        comment.innerHTML = `<div>${text}</div><div class="timestamp">${timestamp}</div>`;
+
+        forum.appendChild(comment);
+        forum.scrollTop = forum.scrollHeight;
+    }
+
+    button.addEventListener("click", () => {
+        if (input.value.trim() !== "") {
+            addComment(input.value.trim());
+            input.value = "";
+        }
+    });
+
+    input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && input.value.trim() !== "") {
+            addComment(input.value.trim());
+            input.value = "";
+        }
+    });
+</script>
+
+</body>
+</html>
